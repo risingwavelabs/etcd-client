@@ -34,7 +34,9 @@ impl KvClient {
     /// Creates a kv client.
     #[inline]
     pub(crate) fn new(channel: Channel, auth_token: Option<Arc<HeaderValue>>) -> Self {
-        let inner = PbKvClient::new(AuthService::new(channel, auth_token));
+        let inner = PbKvClient::new(AuthService::new(channel, auth_token))
+            .max_encoding_message_size(usize::MAX)
+            .max_decoding_message_size(usize::MAX);
         Self { inner }
     }
 
